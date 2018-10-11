@@ -36,7 +36,7 @@ def remove_spaces(text):
     >>> remove_spaces("   ")
     ''
     """
-    pass
+    return text.strip()
 
 
 def normalise_input(user_input):
@@ -51,7 +51,12 @@ def normalise_input(user_input):
     >>> normalise_input("HELP!!!!!!!")
     'help'
     """
-    pass
+    l1 = []
+    for each in user_input:
+        if each not in string.punctuation:
+            l1.append(each)
+    l1 = ''.join(l1)
+    return remove_spaces(l1).lower()
 
     
 def display_room(room):
@@ -73,7 +78,12 @@ def display_room(room):
 
     Note: <BLANKLINE> here means that doctest should expect a blank line.
     """
-    # pass # The pass statement does nothing. Replace it with the body of your function.
+    print("\n")
+    print(room["name"].upper(), "\n")
+    print("\n")
+    print(room["description"], "\n")
+    print("\n")
+    # The pass statement does nothing. Replace it with the body of your function.
 
     
 def exit_leads_to(exits, direction):
@@ -88,7 +98,7 @@ def exit_leads_to(exits, direction):
     >>> exit_leads_to(rooms["Tutor"]["exits"], "west")
     'Reception'
     """
-    pass
+    return exits[direction]
     
 
 def print_menu_line(direction, leads_to):
@@ -104,7 +114,7 @@ def print_menu_line(direction, leads_to):
     >>> print_menu_line("south", "MJ and Simon's room")
     Go SOUTH to MJ and Simon's room.
     """
-    pass
+    print("Go", direction.upper(), "to", leads_to)
 
 
 def print_menu(exits):
@@ -122,13 +132,15 @@ def print_menu(exits):
     Go SOUTH to MJ and Simon's room.
     Where do you want to go?
     """
-    print("You can:")
+    print("You can: ")
     
+    for direction in exits:
+        print_menu_line(direction, exit_leads_to(exits, direction))
+    print("Where do you want to go?")
     # COMPLETE THIS PART:
     # Iterate over available exits:
     #     and for each exit print the appropriate menu line
 
-    print("Where do you want to go?")
 
 
 def is_valid_exit(exits, user_input):
@@ -166,14 +178,15 @@ def menu(exits):
         # COMPLETE THIS PART:
         
         # Display menu
-
+        
         # Read player's input
-
+        choice = input(print_menu(exits))
         # Normalise the input
-
+        normalised_choice = normalise_input(choice)
+        
         # Check if the input makes sense (is valid exit)
             # If so, return the player's choice
-
+        nor
 
 
 
