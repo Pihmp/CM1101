@@ -17,7 +17,13 @@ def remove_punct(text):
     >>> remove_punct(",go!So.?uTh")
     'goSouTh'
     """
-    pass # The pass statement does nothing. Replace it with the body of your function.
+    l1 = []
+    for each in text:
+        if each not in string.punctuation:
+            l1.append(each)
+    l1 = ''.join(l1)
+    return l1
+     # The pass statement does nothing. Replace it with the body of your function.
     
     
 def remove_spaces(text):
@@ -51,11 +57,7 @@ def normalise_input(user_input):
     >>> normalise_input("HELP!!!!!!!")
     'help'
     """
-    l1 = []
-    for each in user_input:
-        if each not in string.punctuation:
-            l1.append(each)
-    l1 = ''.join(l1)
+    l1 = remove_punct(user_input)
     return remove_spaces(l1).lower()
 
     
@@ -159,7 +161,10 @@ def is_valid_exit(exits, user_input):
     >>> is_valid_exit(rooms["Parking"]["exits"], "east")
     True
     """
-    pass
+    if user_input not in exits:
+        return False
+    else:
+        return True
 
 
 def menu(exits):
@@ -174,7 +179,6 @@ def menu(exits):
 
     # Repeat until the player enter a valid choice
     while True:
-        pass
         # COMPLETE THIS PART:
         
         # Display menu
@@ -186,7 +190,8 @@ def menu(exits):
         
         # Check if the input makes sense (is valid exit)
             # If so, return the player's choice
-        nor
+        if is_valid_exit(exits, normalised_choice) == True:
+            return exit_leads_to(exits, normalised_choice)
 
 
 
