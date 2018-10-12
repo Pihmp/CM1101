@@ -42,7 +42,28 @@ def remove_spaces(text):
     >>> remove_spaces("   ")
     ''
     """
-    return text.strip()
+    k = True
+    w = []
+    for char in text:
+        if k == True:
+            if char.isspace() == False:
+                k = False
+                w.append(char)
+        else:
+            w.append(char)
+    w = "".join(w)
+    k = True
+    z = []
+    for char in reversed(w):
+        if k == True:
+            if char.isspace() == False:
+                k = False
+                z.append(char)
+        else:
+            z.append(char)
+    z = "".join(z)
+    z = z[::-1]
+    return z
 
 
 def normalise_input(user_input):
@@ -80,11 +101,11 @@ def display_room(room):
 
     Note: <BLANKLINE> here means that doctest should expect a blank line.
     """
-    print("\n")
-    print(room["name"].upper(), "\n")
-    print("\n")
-    print(room["description"], "\n")
-    print("\n")
+    print("")
+    print(room["name"].upper())
+    print("")
+    print(room["description"])
+    print("")
     # The pass statement does nothing. Replace it with the body of your function.
 
     
@@ -100,7 +121,8 @@ def exit_leads_to(exits, direction):
     >>> exit_leads_to(rooms["Tutor"]["exits"], "west")
     'Reception'
     """
-    return exits[direction]
+    room_chosen =  exits[direction]
+    return rooms[room_chosen]["name"]
     
 
 def print_menu_line(direction, leads_to):
@@ -116,7 +138,7 @@ def print_menu_line(direction, leads_to):
     >>> print_menu_line("south", "MJ and Simon's room")
     Go SOUTH to MJ and Simon's room.
     """
-    print("Go", direction.upper(), "to", leads_to)
+    print("Go", direction.upper(), "to", leads_to + ".")
 
 
 def print_menu(exits):
@@ -207,7 +229,8 @@ def move(exits, direction):
     >>> move(rooms["Reception"]["exits"], "west") == rooms["Office"]
     False
     """
-    pass
+    room_chosen = exits[direction]
+    return rooms[room_chosen]
 
 
 # This is the entry point of our program

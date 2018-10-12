@@ -10,7 +10,7 @@ game on his computer. There are corridors leading to the
 south and east. The exit is to the west.""",
 
     "exits": {"south": "Admins",
-              "east": "Tutors",
+              "east": "Tutor",
               "west": "Parking"} # COMPLETE ME! ADD EXITS!
 }
 
@@ -45,7 +45,7 @@ room_parking = {
 You can go south to the COMSC reception, or east to the
 general office.""",
 
-    "exits" : {"east":"General Office",
+    "exits" : {"east":"Office",
                "south": "Reception"}
 }
 
