@@ -237,10 +237,11 @@ def execute_go(direction):
     (and prints the name of the room into which the player is
     moving). Otherwise, it prints "You cannot go there."
     """
-    possible_exits = current_room["exits"]
-    if direction.lower() in possible_exits:
+    global current_room
+    #possible_exits = current_room["exits"]
+    if direction.lower() in current_room["exits"]:
         direction = direction.lower()
-        next_room = possible_exits[direction]
+        next_room = current_room["exits"][direction]
         current_room = rooms[next_room]
     else:
         print("You cannot go there.")
@@ -253,6 +254,7 @@ def execute_take(item_id):
     there is no such item in the room, this function prints
     "You cannot take that."
     """
+    global inventory
     items_in_room = current_room["items"]
     if item_id in items_in_room:
         inventory.append(item_id)
@@ -316,7 +318,7 @@ def menu(exits, room_items, inv_items):
     function before being returned.
 
     """
-
+    global normalise_input
     # Display menu
     print_menu(exits, room_items, inv_items)
 
