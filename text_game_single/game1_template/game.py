@@ -183,6 +183,7 @@ def is_valid_exit(exits, user_input):
     >>> is_valid_exit(rooms["Parking"]["exits"], "east")
     True
     """
+    
     if user_input not in exits:
         return False
     else:
@@ -209,11 +210,14 @@ def menu(exits):
         choice = input(print_menu(exits))
         # Normalise the input
         normalised_choice = normalise_input(choice)
-        
+        #print(normalised_choice)
         # Check if the input makes sense (is valid exit)
             # If so, return the player's choice
+            
         if is_valid_exit(exits, normalised_choice) == True:
             return normalised_choice
+        else:
+            pass
             
 
 
@@ -231,6 +235,7 @@ def move(exits, direction):
     False
     """
     room_chosen = exits[direction]
+    
     return rooms[room_chosen]
 
 
@@ -252,6 +257,7 @@ def main():
 
         # Move the protagonist, i.e. update the current room
         current_room = move(exits, direction)
+        print("current room", current_room)
 
 
 # Are we being run as a script? If so, run main().
