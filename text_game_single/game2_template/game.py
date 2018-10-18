@@ -24,6 +24,7 @@ def list_of_items(items):
     'money, a student handbook, laptop'
 
     """
+    #print(items)
     item_list = [x["name"] for x in items ]
     item_list = ', '.join(item_list)
     return item_list
@@ -52,6 +53,8 @@ def print_room_items(room):
 
     """
     items = room["items"]
+    #print("ITEMS:", items)
+    #print("ROOM:", room)
     if items:
         print("There is", list_of_items(items), "here.")
         print("")
@@ -255,12 +258,19 @@ def execute_take(item_id):
     "You cannot take that."
     """
     global inventory
+    item_taken = False
     items_in_room = current_room["items"]
-    if item_id in items_in_room:
-        inventory.append(item_id)
-        current_room["items"].remove(item_id)
-    else:
+    for each in items_in_room:
+        if each['id'] == item_id:
+            inventory.append(each)
+            current_room["items"].remove(each)
+            item_taken = True
+        else:
+            pass
+    if item_taken == False:
         print("You cannot take that.")
+    
+    
     
 
 def execute_drop(item_id):
@@ -268,6 +278,22 @@ def execute_drop(item_id):
     player's inventory to list of items in the current room. However, if there is
     no such item in the inventory, this function prints "You cannot drop that."
     """
+    #print(inventory)
+    #print(item_id)
+    #print(items)
+    item_dropped = False
+    for each in inventory:
+        if each['id'] == item_id:
+            current_room["items"].append(each)
+            inventory.remove(each)
+            item_dropped = True
+        else:
+            pass
+    if item_dropped == False:
+        print("You cannot drop that.")
+        
+        
+    '''    
     if item_id in inventory:
         current_room["items"].append(item_id)
         inventory.remove(item_id)
@@ -275,6 +301,7 @@ def execute_drop(item_id):
     else:
         print("You cannot drop that.")
     pass
+    '''
     
 
 def execute_command(command):
