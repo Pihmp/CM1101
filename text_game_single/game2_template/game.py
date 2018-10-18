@@ -1,9 +1,10 @@
 #!/usr/bin/python3
 
-from map import rooms
+from map import *
 from player import *
 from items import *
 from gameparser import *
+import sys
 
 
 
@@ -249,8 +250,9 @@ def execute_go(direction):
     else:
         print("You cannot go there.")
     
-
-
+def print_overweight():
+    print("You are carrying", str(calculate_mass()) + "kg of items.")
+    print("Drop items to lower your weight to pick up that item.")
 def execute_take(item_id):
     """This function takes an item_id as an argument and moves this item from the
     list of items in the current room to the player's inventory. However, if
@@ -260,17 +262,29 @@ def execute_take(item_id):
     global inventory
     item_taken = False
     items_in_room = current_room["items"]
-    for each in items_in_room:
-        if each['id'] == item_id:
-            inventory.append(each)
-            current_room["items"].remove(each)
-            item_taken = True
-        else:
-            pass
-    if item_taken == False:
-        print("You cannot take that.")
+    current_mass = calculate_mass()
+    if current_mass >= 1.3:
+        print_overweight()
+    elif current_mass < 1.3:   
+        for each in items_in_room:
+            if each['id'] == item_id:
+                new_mass = current_mass + each['mass']
+                if new_mass >= 1.3:
+                    print_overweight()
+                else:
+                    inventory.append(each)
+                    current_room["items"].remove(each)
+                    item_taken = True
+            else:
+                pass
+        if item_taken == False:
+            print("You cannot take that.")
     
-    
+def calculate_mass():
+    total_mass = 0
+    for x in inventory:
+        total_mass += x['mass']
+    return total_mass
     
 
 def execute_drop(item_id):
@@ -374,15 +388,56 @@ def move(exits, direction):
     # Next room to go to
     return rooms[exits[direction]]
 
+def win_condition():
+    reception_win = 0
+    admins_win = 0
+    tutor_win = 0
+    parking_win = 0
+    office_win = 0
+    global room_reception, room_admins, room_tutor, room_parking, room_office
+    global item_laptop, item_biscuits, item_id, item_handbook, item_pen, item_money
+    if room_reception['items'] == [item_money]:
+        reception_win = 1
+        print("reception", reception_win)
+    if room_admins['items'] == [item_pen]:
+        admins_win = 1
+        print("admins", admins_win)
+    if room_tutor['items'] == [item_handbook]:
+        tutor_win = 1
+        print("tutor", tutor_win)
+    if room_parking['items'] == [item_id]:
+        parking_win = 1
+        print("parking", parking_win)
+    if room_office['items'] == [item_laptop, item_biscuits] or room_office['items'] == [item_biscuits, item_laptop]:
+        office_win = 1
+        print("office", office_win)
+    total = reception_win + admins_win + tutor_win + parking_win + office_win
+    if total == 5:
+        return True
+    else:
+        return False
+    
+def end(win):
+    if win == True:
+        print("Congratulations! You got all of the items in the right rooms")
+        sys.exit()
+    else:
+        pass
+        
+
 
 # This is the entry point of our program
 def main():
 
     # Main game loop
     while True:
+        #print(win_condition())
+        end(win_condition())
         # Display game status (room description, inventory etc.)
         print_room(current_room)
         print_inventory_items(inventory)
+        print("Your current weight is", str(calculate_mass()) + "kg")
+        print()
 
         # Show the menu with possible actions and ask the player
         command = menu(current_room["exits"], current_room["items"], inventory)
